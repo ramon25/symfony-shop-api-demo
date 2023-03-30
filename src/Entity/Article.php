@@ -28,6 +28,9 @@ class Article
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $filename = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $price;
+
     #[ORM\ManyToMany(targetEntity: Cart::class, mappedBy: 'articles')]
     private Collection $carts;
 
@@ -98,6 +101,18 @@ class Article
     public function setFilename(string $filename): self
     {
         $this->filename = $filename;
+
+        return $this;
+    }
+
+    public function getPrice(): ?int
+    {
+        return $this->price;
+    }
+
+    public function setPrice(int $price): self
+    {
+        $this->price = $price;
 
         return $this;
     }
