@@ -2,6 +2,9 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Post;
+use App\Message\ResetPasswordRequestMessage;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -11,6 +14,16 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: 'security_user')]
+#[ApiResource(operations: [
+    new Post(
+        name: 'reset_password',
+        status: 202,
+        messenger: 'input',
+        input: ResetPasswordRequestMessage::class,
+        output: false,
+        uriTemplate: '/users/reset_password'
+    )
+])]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
