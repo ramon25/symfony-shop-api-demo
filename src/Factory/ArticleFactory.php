@@ -47,9 +47,9 @@ final class ArticleFactory extends ModelFactory
     protected function getDefaults(): array
     {
         return [
-            'name' => self::faker()->text(255),
-            'description' => self::faker()->text(255),
-            'price' => self::faker()->numberBetween(1, 500),
+            'name' => self::faker()->word(),
+            'description' => self::faker()->text(100),
+            'price' => self::faker()->numberBetween(100, 3000),
         ];
     }
 

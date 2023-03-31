@@ -14,22 +14,33 @@ class AppFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
         CategoryFactory::createMany(10);
-        ArticleFactory::createMany(30, function() {
+        ArticleFactory::createMany(30, function () {
             // each Post will have a random Category (chosen from those created above)
             return [
                 'categories' => CategoryFactory::randomRange(0, 3),
             ];
         });
-        CartFactory::createMany(5, function() {
-            // each Post will have a random Category (chosen from those created above)
-            return [
-                'articles' => ArticleFactory::randomRange(0, 3),
-            ];
-        });
 
         UserFactory::createOne([
             'email' => 'admin@ongoing.ch',
-            'password' => '$2y$13$spr7EwQrO22fO2SF5lPXY.xIALPnmdpk0ntzmjeZf3AT8r5rQjLq6'
+            'password' => '$2y$13$spr7EwQrO22fO2SF5lPXY.xIALPnmdpk0ntzmjeZf3AT8r5rQjLq6',
+            'carts' => CartFactory::createMany(2, function () {
+                // each Post will have a random Category (chosen from those created above)
+                return [
+                    'articles' => ArticleFactory::randomRange(0, 3),
+                ];
+            })
         ]);
+
+        UserFactory::createMany(10, function () {
+            // each Post will have a random Category (chosen from those created above)
+            return [
+                'carts' => [CartFactory::createOne(
+                    [
+                        'articles' => ArticleFactory::randomRange(0, 10),
+                    ]
+                )]
+            ];
+        });
     }
 }

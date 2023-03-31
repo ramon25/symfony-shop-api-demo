@@ -20,9 +20,13 @@ class Cart
     #[ORM\ManyToMany(targetEntity: Article::class, inversedBy: 'carts')]
     private Collection $articles;
 
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'carts')]
+    private Collection $user;
+
     public function __construct()
     {
         $this->articles = new ArrayCollection();
+        $this->user = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -50,6 +54,30 @@ class Cart
     public function removeArticle(Article $article): self
     {
         $this->articles->removeElement($article);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getUser(): Collection
+    {
+        return $this->user;
+    }
+
+    public function addUser(User $user): self
+    {
+        if (!$this->user->contains($user)) {
+            $this->user->add($user);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): self
+    {
+        $this->user->removeElement($user);
 
         return $this;
     }
